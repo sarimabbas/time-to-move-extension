@@ -1,0 +1,14 @@
+{
+    "name": "Time to Move!",
+    "description": "Extension that promotes a healthy worklife by reminding you to move at certain times during the day.",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": ["storage", "activeTab", "scripting", "identity"],
+    "options_page": "options.html",
+    "background": "background.js",
+
+    "action": {
+        "default_title": "Time to Move!",
+        "default_popup": "login.html"
+    }
+  }

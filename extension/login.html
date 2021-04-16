@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="login.js" defer></script>
+    <title>Login Form</title>
+    <link rel="stylesheet" href="login_style.css" />
+  </head>
+  <body>
+    <div class="backdrop">
+      <div class="form_box">
+        <div class="button_box">
+          <div id="btn"></div>
+          <button type="button" class="toggle-btn" id="login-button">
+            Log In
+          </button>
+          <button type="button" class="toggle-btn" id="register-button">
+            register
+          </button>
+        </div>
+
+        <form id="login" class="input_group">
+          <input
+            type="text"
+            class="input_field"
+            name=""
+            placeholder="Enter Username"
+            required
+          />
+          <input
+            type="text"
+            class="input_field"
+            name=""
+            placeholder="Enter Password"
+            required
+          />
+          <button type="submit" class="submit_button">Log In</button>
+        </form>
+
+        <form id="register" class="input_group">
+          <input
+            type="text"
+            class="input_field"
+            name=""
+            placeholder="Enter Username"
+            required
+          />
+          <input
+            type="email"
+            class="input_field"
+            name=""
+            placeholder="Enter Email"
+            required
+          />
+          <input
+            type="text"
+            class="input_field"
+            name=""
+            placeholder="Enter Password"
+            required
+          />
+          <button type="submit" class="submit_button">Register</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
