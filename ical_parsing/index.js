@@ -43,19 +43,19 @@ const isToday = (date) => {
 //         2. output a list of objects which are suggested breaks
 // the format of each break object should be as follows:
 // { start: Date(), end: Date() }
-function scheduler(todayEvents) {
-  // here is a sample list with a break time scheduled for right now
-
-  // create a break starting right now for 20 minutes into the future
-  const start = new Date();
-  const end = new Date();
-  end.setMinutes(start.getMinutes() + 20);
-  const breakTimes = [
+async function scheduler(todayEvents) {
+  const response = await fetch(
+    "https://time-to-move-scheduler.herokuapp.com/",
     {
-      start: start,
-      end: end,
-    },
-  ];
+      method: "POST",
+      body: JSON.stringify(todayEvents),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  const breakTimes = await response.text();
 
   return breakTimes;
 }
@@ -71,7 +71,7 @@ async function main() {
   console.log("Today's events are: ", todayEvents);
 
   // pass them to the scheduler
-  const breakTimes = scheduler(todayEvents);
+  const breakTimes = await scheduler(todayEvents);
   console.log("Today's scheduled breaks are: ", breakTimes);
 }
 

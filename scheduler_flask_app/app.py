@@ -1,10 +1,14 @@
 # app.py
 from flask import Flask, request, jsonify
-
+import pprint
 import datetime as dt
 import pandas as pd
 import numpy as np
 from flask_cors import CORS
+from dateutil import parser
+
+
+pp = pprint.PrettyPrinter(indent=4)
 
 app = Flask(__name__)
 CORS(app)
@@ -100,12 +104,23 @@ def find_breakTimes(
     return breakTimes
 
 
-# A welcome message to test our server
-@app.route("/")
+@app.route("/", methods=["POST", "GET"])
 def index():
 
-    time = dt.datetime.now()
+    if request.method == "GET":
+        return "Hello and welcome to the server!"
 
+    # get the data sent from javascript
+    eventListFromClientSide = request.json
+
+    # convert the date time to timestamps
+    for event in eventListFromClientSide:
+        event["start"] = parser.parse(event["start"]).timestamp()
+        event["end"] = parser.parse(event["end"]).timestamp()
+    pp.pprint(eventListFromClientSide)
+
+    # hardcoded stuff
+    time = dt.datetime.now()
     start1 = time.replace(hour=9, minute=0, second=0).timestamp()
     end1 = time.replace(hour=10, minute=0, second=0).timestamp()
     start2 = time.replace(hour=11, minute=30, second=0).timestamp()
@@ -118,6 +133,7 @@ def index():
     BOD = time.replace(hour=8, minute=0, second=0).timestamp()
     EOD = time.replace(hour=17, minute=0, second=0).timestamp()
 
+    # create data frame from events
     busyTimes = pd.DataFrame(
         {"start": [start1, start2, start3, start4], "end": [end1, end2, end3, end4]}
     )
