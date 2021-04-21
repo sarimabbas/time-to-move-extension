@@ -1,3 +1,29 @@
+function freeTimes(busyTimes){
+  // busyTime = dataframe with column for start times, column for end times, row corresponds to an event
+  //            start     end
+  // event 1    ...       ...
+  // event 2    ...       ...
+
+  // freeTime = dataframe with same set up as busyTime
+  //            start                       end
+  // event 1    = busyTime event1 end       = busyTime event2 start
+  // event 2    = busyTime event2 end       = busyTime event 3 start
+
+  for i in length(busyTimes/2){
+    freeTimes = pd.DataFrame({'start': , 'end': })
+    freeTimes.iloc[i,:] = busyTimes.iloc[i, 1]
+    freeTimes.iloc[]
+
+  }
+
+}
+
+
+
+
+
+
+
 // https://stackoverflow.com/questions/48407713/get-available-time-ranges-from-an-array-of-busy-time-ranges
 
 function giveTime(start) {
