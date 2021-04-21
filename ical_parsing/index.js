@@ -44,6 +44,7 @@ const isToday = (date) => {
 // the format of each break object should be as follows:
 // { start: Date(), end: Date() }
 async function scheduler(todayEvents) {
+  // use http://127.0.0.1:5000/ as the URL if working locally
   const response = await fetch(
     "https://time-to-move-scheduler.herokuapp.com/",
     {
