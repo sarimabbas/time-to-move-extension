@@ -4,8 +4,10 @@ from flask import Flask, request, jsonify
 import datetime as dt
 import pandas as pd
 import numpy as np
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 
 def getFreeTimes(busy_times, user_BOD, user_EOD):
@@ -21,39 +23,40 @@ def getFreeTimes(busy_times, user_BOD, user_EOD):
         startFree_BOD = user_BOD
         end_first_free = busy_times.iloc[0, 0]
 
-        first_free = pd.DataFrame(
-            {'start': [startFree_BOD], 'end': [end_first_free]})
+        first_free = pd.DataFrame({"start": [startFree_BOD], "end": [end_first_free]})
 
         freeTimes = freeTimes.append(first_free)
 
     # during day events
-    for i in np.arange(0, len(busy_times)-1):
+    for i in np.arange(0, len(busy_times) - 1):
 
         startFree = busy_times.iloc[i, 1]
-        endFree = busy_times.iloc[i+1, 0]
+        endFree = busy_times.iloc[i + 1, 0]
 
-        free = pd.DataFrame({'start': [startFree], 'end': [endFree]})
+        free = pd.DataFrame({"start": [startFree], "end": [endFree]})
 
         freeTimes = freeTimes.append(free)
 
     # end of day case
-    if busy_times.iloc[len(busy_times)-1, 1] < user_EOD:
-        startFree_EOD = busy_times.iloc[len(busy_times)-1, 1]
+    if busy_times.iloc[len(busy_times) - 1, 1] < user_EOD:
+        startFree_EOD = busy_times.iloc[len(busy_times) - 1, 1]
         EOD = user_EOD
 
-        last_free = pd.DataFrame({'start': [startFree_EOD], 'end': [EOD]})
+        last_free = pd.DataFrame({"start": [startFree_EOD], "end": [EOD]})
         freeTimes = freeTimes.append(last_free)
 
     return freeTimes
 
 
-def find_breakTimes(freeTimes, break_length, time_between_breaks, time_after_busy, user_BOD):
+def find_breakTimes(
+    freeTimes, break_length, time_between_breaks, time_after_busy, user_BOD
+):
 
     breakTimes = []
 
     # first break of the day:
-    startBreak = user_BOD + (45*60)
-    endBreak = startBreak + (break_length*60)
+    startBreak = user_BOD + (45 * 60)
+    endBreak = startBreak + (break_length * 60)
     one_break = [startBreak, endBreak]
 
     # start of break bust be in the free time
@@ -64,8 +67,8 @@ def find_breakTimes(freeTimes, break_length, time_between_breaks, time_after_bus
 
     for i in np.arange(0, len(freeTimes)):
         # break starts user input amount of mins after beginning of free time (= end of busy time)
-        startBreak = freeTimes.iloc[i, 0] + (time_after_busy*60)
-        endBreak = startBreak + (break_length*60)
+        startBreak = freeTimes.iloc[i, 0] + (time_after_busy * 60)
+        endBreak = startBreak + (break_length * 60)
 
         possible_break = [startBreak, endBreak]
 
@@ -81,11 +84,11 @@ def find_breakTimes(freeTimes, break_length, time_between_breaks, time_after_bus
                     breakTimes.append(possible_break)
 
         # while the end of the break is less than the end of the free time, schedule more breaks
-        while (possible_break[1] < freeTimes.iloc[i, 1]):
-            startBreak = possible_break[1] + (time_between_breaks*60)
+        while possible_break[1] < freeTimes.iloc[i, 1]:
+            startBreak = possible_break[1] + (time_between_breaks * 60)
 
             # currently a 10 minute break -- should be adjustable for user input
-            endBreak = startBreak + (break_length*60)
+            endBreak = startBreak + (break_length * 60)
 
             possible_break = [startBreak, endBreak]
 
@@ -116,8 +119,7 @@ def index():
     EOD = time.replace(hour=17, minute=0, second=0).timestamp()
 
     busyTimes = pd.DataFrame(
-        {"start": [start1, start2, start3, start4],
-            "end": [end1, end2, end3, end4]}
+        {"start": [start1, start2, start3, start4], "end": [end1, end2, end3, end4]}
     )
 
     user_freeTimes = getFreeTimes(busyTimes, BOD, EOD)
