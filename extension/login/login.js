@@ -16,23 +16,3 @@ ui.start("#firebaseui-auth-container", {
   signInOptions: [firebase.auth.EmailAuthProvider.PROVIDER_ID],
   // Other config options...
 });
-
-var x = document.getElementById("login");
-var y = document.getElementById("register");
-var z = document.getElementById("btn");
-
-function register() {
-  x.style.left = "-400px";
-  y.style.left = "50px";
-  z.style.left = "110px";
-}
-
-function login() {
-  x.style.left = "50px";
-  y.style.left = "450px";
-  z.style.left = "0px";
-}
-
-document.getElementById("login-button").addEventListener("click", login);
-
-document.getElementById("register-button").addEventListener("click", register);
