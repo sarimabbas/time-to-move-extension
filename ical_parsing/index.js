@@ -45,18 +45,24 @@ const isToday = (date) => {
 // { start: Date(), end: Date() }
 async function scheduler(todayEvents) {
   // use http://127.0.0.1:5000/ as the URL if working locally
-  const response = await fetch(
-    "https://time-to-move-scheduler.herokuapp.com/",
-    {
-      method: "POST",
-      body: JSON.stringify(todayEvents),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  // use https://time-to-move-scheduler.herokuapp.com/ as the URL if committing to GitHub
+  const response = await fetch("http://127.0.0.1:5000/", {
+    method: "POST",
+    body: JSON.stringify(todayEvents),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const responseText = await response.text();
+  const responseData = JSON.parse(responseText);
 
-  const breakTimes = await response.text();
+  // convert the Python timestamps to JS data again
+  const breakTimes = responseData.map((b) => {
+    return {
+      start: new Date(b[0] * 1000),
+      end: new Date(b[1] * 1000),
+    };
+  });
 
   return breakTimes;
 }
