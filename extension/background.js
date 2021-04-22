@@ -2,6 +2,7 @@
 // (i.e. whenever Google Chrome is open)
 // if you want to store things longer you need the storage API
 let user_signed_in = false;
+let ical_feed = "";
 
 // the chrome runtime passes messages between the scripts in the frontend and this "backend" script
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -21,6 +22,17 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   else if (request.message === "sign_in") {
     user_signed_in = true;
     sendResponse({ message: "success" });
+  }
+
+  // get the ical feed from options.html / options.js
+  else if (request.message === "ical_feed_entered" && request.payload) {
+    ical_feed = request.payload;
+    console.log(request);
+  }
+
+  //
+  else if (request.message === "get_ical_feed") {
+    sendResponse({ message: "success", payload: ical_feed });
   }
 
   return true;
