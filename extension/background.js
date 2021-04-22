@@ -1,5 +1,6 @@
 // these are global variables that exist over the lifetime of the extension
 // (i.e. whenever Google Chrome is open)
+// if you want to store things longer you need the storage API
 let user_signed_in = false;
 
 // the chrome runtime passes messages between the scripts in the frontend and this "backend" script
