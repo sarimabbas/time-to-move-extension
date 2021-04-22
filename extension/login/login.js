@@ -13,6 +13,16 @@ firebase.initializeApp(firebaseConfig);
 var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
 ui.start("#firebaseui-auth-container", {
+  signInFlow: "popup",
   signInOptions: [firebase.auth.EmailAuthProvider.PROVIDER_ID],
-  // Other config options...
+  callbacks: {
+    signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+      chrome.runtime.sendMessage({ message: "sign_in" }, function (response) {
+        if (response.message === "success") {
+          window.location.replace("../main/main.html");
+        }
+      });
+      return false;
+    },
+  },
 });
