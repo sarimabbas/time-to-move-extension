@@ -1,4 +1,5 @@
 function init() {
+  // ask background.js if user_signed_in
   chrome.runtime.sendMessage(
     { message: "is_user_signed_in" },
     function (response) {
