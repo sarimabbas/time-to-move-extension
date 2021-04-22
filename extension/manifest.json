@@ -3,7 +3,9 @@
   "description": "Extension that promotes a healthy worklife by reminding you to move at certain times during the day.",
   "version": "1.0",
   "manifest_version": 2,
-  "icons": {},
+  "icons": {
+    "128": "./icon.png"
+  },
   "background": {
     "scripts": ["./background.js"]
   },
