@@ -24,13 +24,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     sendResponse({ message: "success" });
   }
 
-  // get the ical feed from options.html / options.js
-  else if (request.message === "ical_feed_entered" && request.payload) {
+  // set the ical feed from options.html / options.js
+  else if (request.message === "set_ical_feed" && request.payload) {
     ical_feed = request.payload;
     console.log(request);
   }
 
-  //
+  // give the ical feed to whoever needs it
   else if (request.message === "get_ical_feed") {
     sendResponse({ message: "success", payload: ical_feed });
   }

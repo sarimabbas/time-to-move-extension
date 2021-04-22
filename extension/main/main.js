@@ -1,3 +1,6 @@
+const logger = (...msg) =>
+  chrome.extension.getBackgroundPage().console.log(...msg);
+
 document.querySelector("#go-to-options").addEventListener("click", function () {
   if (chrome.runtime.openOptionsPage) {
     chrome.runtime.openOptionsPage();
@@ -13,3 +16,13 @@ document.querySelector("#sign-out").addEventListener("click", function () {
     }
   });
 });
+
+function init() {
+  chrome.runtime.sendMessage({ message: "get_ical_feed" }, function (response) {
+    if (response.message === "success" && response.payload) {
+      document.querySelector("#ical-feed-holder").innerText = response.payload;
+    }
+  });
+}
+
+init();
