@@ -27,7 +27,8 @@ def getFreeTimes(busy_times, user_BOD, user_EOD):
         startFree_BOD = user_BOD
         end_first_free = busy_times.iloc[0, 0]
 
-        first_free = pd.DataFrame({"start": [startFree_BOD], "end": [end_first_free]})
+        first_free = pd.DataFrame(
+            {"start": [startFree_BOD], "end": [end_first_free]})
 
         freeTimes = freeTimes.append(first_free)
 
@@ -135,7 +136,8 @@ def index():
 
     # create data frame from events
     busyTimes = pd.DataFrame(
-        {"start": [start1, start2, start3, start4], "end": [end1, end2, end3, end4]}
+        {"start": [start1, start2, start3, start4],
+            "end": [end1, end2, end3, end4]}
     )
 
     user_freeTimes = getFreeTimes(busyTimes, BOD, EOD)
