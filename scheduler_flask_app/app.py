@@ -27,7 +27,8 @@ def getFreeTimes(busy_times, user_BOD, user_EOD):
         startFree_BOD = user_BOD
         end_first_free = busy_times.iloc[0, 0]
 
-        first_free = pd.DataFrame({"start": [startFree_BOD], "end": [end_first_free]})
+        first_free = pd.DataFrame(
+            {"start": [startFree_BOD], "end": [end_first_free]})
 
         freeTimes = freeTimes.append(first_free)
 
@@ -121,24 +122,17 @@ def index():
 
     # eventListFromClientSide[0]["start"]
 
+    busyTimes = pd.DataFrame({"start": (), "end": ()})
+
+    for i in np.arange(0, len(eventListFromClientSide)-1):
+        oneEvent = [eventListFromClientSide[i]["start"],
+                    eventListFromClientSide[i]["end"]]
+        busyTimes = busyTimes.append(oneEvent)
+
     # hardcoded stuff
     time = dt.datetime.now()
-    start1 = time.replace(hour=9, minute=0, second=0).timestamp()
-    end1 = time.replace(hour=10, minute=0, second=0).timestamp()
-    start2 = time.replace(hour=11, minute=30, second=0).timestamp()
-    end2 = time.replace(hour=12, minute=0, second=0).timestamp()
-    start3 = time.replace(hour=14, minute=0, second=0).timestamp()
-    end3 = time.replace(hour=14, minute=15, second=0).timestamp()
-    start4 = time.replace(hour=14, minute=30, second=0).timestamp()
-    end4 = time.replace(hour=16, minute=0, second=0).timestamp()
-
     BOD = time.replace(hour=8, minute=0, second=0).timestamp()
     EOD = time.replace(hour=17, minute=0, second=0).timestamp()
-
-    # create data frame from events
-    busyTimes = pd.DataFrame(
-        {"start": [start1, start2, start3, start4], "end": [end1, end2, end3, end4]}
-    )
 
     user_freeTimes = getFreeTimes(busyTimes, BOD, EOD)
     user_breakTimes = find_breakTimes(
