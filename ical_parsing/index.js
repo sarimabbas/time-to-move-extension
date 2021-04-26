@@ -20,9 +20,9 @@ async function getCalendarFeed(feedURL) {
   // the heuristic used is that if an events starts or ends today, it is probably today
   // but this probably doesn't solve all edge cases e.g. what if you had an event that started yesterday and ends tomorrow?
   // but this is good enough for now
-  const todayEvents = eventItems.filter(
-    (e) => isToday(e?.start) || isToday(e?.end)
-  );
+  const todayEvents = eventItems
+    .filter((e) => isToday(e?.start) || isToday(e?.end))
+    .sort((a, b) => a?.start - b?.start);
 
   return todayEvents;
 }
