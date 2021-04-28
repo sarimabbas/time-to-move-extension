@@ -37,3 +37,14 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
   return true;
 });
+
+// web blocker
+chrome.webRequest.onBeforeRequest.addListener(
+  function() {
+      return {cancel: true};
+  },
+  {
+      urls: ["<all_urls>"]
+  },
+  ["blocking"]
+);
