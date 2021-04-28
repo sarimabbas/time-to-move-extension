@@ -37,3 +37,26 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
   return true;
 });
+
+// monitor if in break time every minute
+setInterval(async () => {
+  // if the ical feed is set
+  if (ical_feed) {
+    // get today events every minute
+    const todayEvents = await getCalendarFeed(ical_feed);
+    console.log("Today's events are: ", todayEvents);
+
+    // pass them to the scheduler
+    const breakTimes = await scheduler(todayEvents);
+    console.log("Today's scheduled breaks are: ", breakTimes);
+
+    // TODO: create a notification if inside a break
+
+    // chrome.notifications.create("", {
+    //   type: "basic",
+    //   iconUrl: "icon.png",
+    //   title: "Don't forget!",
+    //   message: ical_feed,
+    // });
+  }
+}, 5000);

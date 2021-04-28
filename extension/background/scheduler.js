@@ -1,3 +1,14 @@
+// checks if a Date() object occurs today
+const isToday = (date) => {
+  if (!date) return false;
+  const today = new Date();
+  return (
+    date.getDate() === today.getDate() &&
+    date.getMonth() === today.getMonth() &&
+    date.getFullYear() === today.getFullYear()
+  );
+};
+
 // this function parses an iCal feed e.g. from Google Calendar
 // it gets the raw data of the feed and transforms it into a list of events
 async function getCalendarFeed(feedURL) {
@@ -27,17 +38,6 @@ async function getCalendarFeed(feedURL) {
   return todayEvents;
 }
 
-// checks if a Date() object occurs today
-const isToday = (date) => {
-  if (!date) return false;
-  const today = new Date();
-  return (
-    date.getDate() === today.getDate() &&
-    date.getMonth() === today.getMonth() &&
-    date.getFullYear() === today.getFullYear()
-  );
-};
-
 // YOUR TASK: given a list of today's events, can you...
 //         1. figure out which parts of the day are free
 //         2. output a list of objects which are suggested breaks
@@ -46,7 +46,7 @@ const isToday = (date) => {
 async function scheduler(todayEvents) {
   // use http://127.0.0.1:5000/ as the URL if working locally
   // use https://time-to-move-scheduler.herokuapp.com/ as the URL if committing to GitHub
-  const response = await fetch("http://127.0.0.1:5000/", {
+  const response = await fetch("https://time-to-move-scheduler.herokuapp.com", {
     method: "POST",
     body: JSON.stringify(todayEvents),
     headers: {
@@ -66,21 +66,3 @@ async function scheduler(todayEvents) {
 
   return breakTimes;
 }
-
-// this is our main function
-async function main() {
-  console.log("Starting up main...");
-
-  // get a list of todays events
-  const todayEvents = await getCalendarFeed(
-    "https://calendar.google.com/calendar/ical/gabrielle.branin%40yale.edu/public/basic.ics"
-  );
-  console.log("Today's events are: ", todayEvents);
-
-  // pass them to the scheduler
-  const breakTimes = await scheduler(todayEvents);
-  console.log("Today's scheduled breaks are: ", breakTimes);
-}
-
-// run main
-main();

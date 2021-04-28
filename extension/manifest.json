@@ -7,12 +7,22 @@
     "128": "./icon.png"
   },
   "background": {
-    "scripts": ["./background.js"]
+    "scripts": [
+      "./background/background.js",
+      "./background/ical.js",
+      "./background/scheduler.js"
+    ]
   },
   "options_page": "./options/options.html",
   "browser_action": {
     "default_popup": "./popup/popup.html"
   },
-  "permissions": ["storage", "activeTab", "identity"],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "identity",
+    "alarms",
+    "notifications"
+  ],
   "content_security_policy": "script-src 'self' https://cdn.firebase.com https://apis.google.com https://www.gstatic.com; object-src 'self'"
 }
