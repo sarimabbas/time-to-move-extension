@@ -54,6 +54,7 @@ def getFreeTimes(busy_times, user_BOD, user_EOD):
 
 
 def find_breakTimes(
+    # all of these are user inputs except for freeTimes
     freeTimes, break_length, time_between_breaks, time_after_busy, user_BOD
 ):
 
