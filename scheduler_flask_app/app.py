@@ -54,6 +54,7 @@ def getFreeTimes(busy_times, user_BOD, user_EOD):
 
 
 def find_breakTimes(
+    # all of these are user inputs except for freeTimes
     freeTimes, break_length, time_between_breaks, time_after_busy, user_BOD
 ):
 
@@ -137,7 +138,7 @@ def index():
     user_freeTimes = getFreeTimes(busyTimes, BOD, EOD)
     user_breakTimes = find_breakTimes(
         user_freeTimes,
-        break_length=10,
+        break_length=10,  # these would be changed to user inputs
         time_between_breaks=45,
         time_after_busy=15,
         user_BOD=BOD,
