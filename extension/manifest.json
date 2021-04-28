@@ -13,7 +13,7 @@
       "./background/scheduler.js"
     ]
   },
-  "options_page": "./options/options.html",
+  "options_page": "./options/pages/options.html",
   "browser_action": {
     "default_popup": "./popup/popup.html"
   },
@@ -21,6 +21,10 @@
     "storage",
     "activeTab",
     "identity",
+    "tabs",
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>",
     "alarms",
     "notifications"
   ],

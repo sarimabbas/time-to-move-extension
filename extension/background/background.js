@@ -52,6 +52,17 @@ setInterval(async () => {
 
     // TODO: create a notification if inside a break
 
+    // web blocker
+    // chrome.webRequest.onBeforeRequest.addListener(
+    //   function() {
+    //       return {cancel: true};
+    //   },
+    //   {
+    //       urls: ["<all_urls>"]
+    //   },
+    //   ["blocking"]
+    // );
+
     // chrome.notifications.create("", {
     //   type: "basic",
     //   iconUrl: "icon.png",
