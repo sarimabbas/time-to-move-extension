@@ -1,5 +1,4 @@
-const logger = (...msg) =>
-  chrome.extension.getBackgroundPage().console.log(...msg);
+// To debug this file, right click the popup and Inspect Element
 
 document.querySelector("#go-to-options").addEventListener("click", function () {
   if (chrome.runtime.openOptionsPage) {
@@ -18,6 +17,8 @@ document.querySelector("#sign-out").addEventListener("click", function () {
 });
 
 function init() {
+  console.log("initializing");
+
   // EXAMPLE: get the ical feed to show
   chrome.runtime.sendMessage({ message: "get_ical_feed" }, function (response) {
     if (response.message === "success" && response.payload) {
@@ -28,8 +29,12 @@ function init() {
   // EXAMPLE: get the breaks
   chrome.runtime.sendMessage({ message: "get_breaks" }, function (response) {
     if (response.message === "success" && response.payload) {
+      const todayBreaks = response.payload;
+      console.log("received this from background", todayBreaks);
+
+      // const rightNow = new Date();
       document.querySelector("#breaks-holder").innerText = JSON.stringify(
-        response.payload
+        todayBreaks
       );
     }
   });

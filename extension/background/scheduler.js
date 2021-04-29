@@ -50,6 +50,11 @@ async function getCalendarFeed(feedURL) {
 // the format of each break object should be as follows:
 // { start: Date(), end: Date() }
 async function scheduler(todayEvents) {
+  const breaks = await schedulerRemote(todayEvents);
+  return breaks;
+}
+
+async function schedulerRemote(todayEvents) {
   // use http://127.0.0.1:5000/ as the URL if working locally
   // use https://time-to-move-scheduler.herokuapp.com/ as the URL if committing to GitHub
   const response = await fetch("https://time-to-move-scheduler.herokuapp.com", {
@@ -71,4 +76,20 @@ async function scheduler(todayEvents) {
   });
 
   return breakTimes;
+}
+
+// TODO
+async function schedulerLocal(todayEvents) {
+  console.log("scheduler");
+  console.log(todayEvents);
+
+  const freeTimes = [];
+
+  const startOfDay = new Date();
+  startOfDay.setHours(0, 0, 0, 0);
+
+  const endOfDay = new Date(startOfDay.getTime());
+  endOfDay.setHours(23, 59, 59, 999);
+
+  return [];
 }

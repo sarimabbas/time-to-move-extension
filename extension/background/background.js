@@ -19,7 +19,11 @@ async function fetchBreaks() {
 }
 
 // the chrome runtime passes messages between the scripts in the frontend and this "backend" script
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(async function (
+  request,
+  sender,
+  sendResponse
+) {
   // you can ask if the user is signed in from the frontend with this
   if (request.message === "is_user_signed_in") {
     sendResponse({
@@ -43,7 +47,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   // set the ical feed from options.html / options.js
   else if (request.message === "set_ical_feed" && request.payload) {
     ical_feed = request.payload;
-    fetchBreaks();
+    await fetchBreaks();
     sendResponse({ message: "success" });
   }
 
@@ -68,6 +72,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
 // monitor if in break time every minute
 setInterval(async () => {
+  // fetch events every minute
+  if (ical_feed) {
+    console.log("fetching breaks");
+    await fetchBreaks();
+    console.log("got", breakTimes);
+  }
+
   // if the ical feed is set
   if (breakTimes.length > 0) {
     // TODO: create a notification if inside a break
@@ -88,4 +99,4 @@ setInterval(async () => {
     //   message: ical_feed,
     // });
   }
-}, 60000);
+}, 5000);
