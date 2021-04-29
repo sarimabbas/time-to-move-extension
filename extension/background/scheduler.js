@@ -46,7 +46,7 @@ async function getCalendarFeed(feedURL) {
 async function scheduler(todayEvents) {
   // use http://127.0.0.1:5000/ as the URL if working locally
   // use https://time-to-move-scheduler.herokuapp.com/ as the URL if committing to GitHub
-  const response = await fetch("https://time-to-move-scheduler.herokuapp.com", {
+  const response = await fetch("http://127.0.0.1:5000/", {
     method: "POST",
     body: JSON.stringify(todayEvents),
     headers: {

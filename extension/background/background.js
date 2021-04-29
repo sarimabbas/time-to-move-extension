@@ -71,3 +71,21 @@ setInterval(async () => {
     // });
   }
 }, 5000);
+
+// breaks taken vs. breaks snoozed
+var breaksTaken = 0;
+var breaksSnoozed = 0;
+var clicked = False;
+
+var cancel_button = getElementByID("cancel_button");
+
+cancel_button.onclick = function () {
+  clicked = True;
+};
+
+if (clicked === True) {
+  breaksSnoozed++;
+} else {
+  // if (clicked === False)
+  breaksTaken++;
+}
