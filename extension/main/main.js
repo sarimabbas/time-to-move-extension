@@ -18,9 +18,19 @@ document.querySelector("#sign-out").addEventListener("click", function () {
 });
 
 function init() {
+  // EXAMPLE: get the ical feed to show
   chrome.runtime.sendMessage({ message: "get_ical_feed" }, function (response) {
     if (response.message === "success" && response.payload) {
       document.querySelector("#ical-feed-holder").innerText = response.payload;
+    }
+  });
+
+  // EXAMPLE: get the breaks
+  chrome.runtime.sendMessage({ message: "get_breaks" }, function (response) {
+    if (response.message === "success" && response.payload) {
+      document.querySelector("#breaks-holder").innerText = JSON.stringify(
+        response.payload
+      );
     }
   });
 }

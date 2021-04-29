@@ -3,9 +3,20 @@
 // if you want to store things longer you need the storage API
 let user_signed_in = false;
 let ical_feed = "";
+let breakTimes = [];
 let breaksTaken = 0;
 let breaksSnoozed = 0;
 let clicked = false;
+
+async function fetchBreaks() {
+  // get today events every minute
+  const todayEvents = await getCalendarFeed(ical_feed);
+  console.log("Today's events are: ", todayEvents);
+
+  // pass them to the scheduler
+  breakTimes = await scheduler(todayEvents);
+  console.log("Today's scheduled breaks are: ", breakTimes);
+}
 
 // the chrome runtime passes messages between the scripts in the frontend and this "backend" script
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -32,12 +43,18 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   // set the ical feed from options.html / options.js
   else if (request.message === "set_ical_feed" && request.payload) {
     ical_feed = request.payload;
-    console.log(request);
+    fetchBreaks();
+    sendResponse({ message: "success" });
   }
 
   // give the ical feed to whoever needs it
   else if (request.message === "get_ical_feed") {
     sendResponse({ message: "success", payload: ical_feed });
+  }
+
+  // get the breaks
+  else if (request.message === "get_breaks") {
+    sendResponse({ message: "success", payload: breakTimes });
   }
 
   // snooze break
@@ -52,17 +69,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 // monitor if in break time every minute
 setInterval(async () => {
   // if the ical feed is set
-  if (ical_feed) {
-    // get today events every minute
-    const todayEvents = await getCalendarFeed(ical_feed);
-    console.log("Today's events are: ", todayEvents);
-
-    // pass them to the scheduler
-    const breakTimes = await scheduler(todayEvents);
-    console.log("Today's scheduled breaks are: ", breakTimes);
-
+  if (breakTimes.length > 0) {
     // TODO: create a notification if inside a break
-
     // web blocker
     // chrome.webRequest.onBeforeRequest.addListener(
     //   function() {
@@ -73,7 +81,6 @@ setInterval(async () => {
     //   },
     //   ["blocking"]
     // );
-
     // chrome.notifications.create("", {
     //   type: "basic",
     //   iconUrl: "icon.png",
