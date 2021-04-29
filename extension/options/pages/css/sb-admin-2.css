@@ -505,6 +505,13 @@ mark,
   color: #858796;
 }
 
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 code {
   font-size: 87.5%;
   color: #e83e8c;

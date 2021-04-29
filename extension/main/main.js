@@ -25,4 +25,14 @@ function init() {
   });
 }
 
+
+// // listener for the "abort button" on the breakpage
+// document.addEventListener('DOMContentLoaded', function () {
+//   var checkPageButton = document.getElementById("quitBreak");
+//     checkPageButton.addEventListener('click', function(){
+//         inBreak= false;
+//         console.log("successfully pressed!")
+//   });
+// });
+
 init();
