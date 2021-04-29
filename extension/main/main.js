@@ -29,12 +29,19 @@ function init() {
   // EXAMPLE: get the breaks
   chrome.runtime.sendMessage({ message: "get_breaks" }, function (response) {
     if (response.message === "success" && response.payload) {
-      const todayBreaks = response.payload;
+      const todayBreaks = response.payload?.map((t) => {
+        return {
+          start: new Date(t.start),
+          end: new Date(t.end),
+        };
+      });
       console.log("received this from background", todayBreaks);
 
-      // const rightNow = new Date();
+      const now = new Date();
+      const upcomingBreaks = todayBreaks.filter((b) => b.start > now);
+
       document.querySelector("#breaks-holder").innerText = JSON.stringify(
-        todayBreaks
+        upcomingBreaks
       );
     }
   });
