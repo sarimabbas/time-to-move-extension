@@ -38,6 +38,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   return true;
 });
 
+<<<<<<< Updated upstream:extension/background.js
 // web blocker
 chrome.webRequest.onBeforeRequest.addListener(
   function() {
@@ -48,3 +49,63 @@ chrome.webRequest.onBeforeRequest.addListener(
   },
   ["blocking"]
 );
+=======
+// monitor if in break time every minute
+setInterval(async () => {
+  // if the ical feed is set
+  if (ical_feed) {
+    // get today events every minute
+    const todayEvents = await getCalendarFeed(ical_feed);
+    console.log("Today's events are: ", todayEvents);
+
+    // pass them to the scheduler
+    const breakTimes = await scheduler(todayEvents);
+    console.log("Today's scheduled breaks are: ", breakTimes);
+    
+
+    // loops through the breakTimes array, checking if the current time is within any breaktimes
+
+    let inBreak = false;
+  
+    var i;
+    for (i = 0; i < breakTimes.length; i++) {
+      var date = Date();
+      var min = breakTimes[i]["start"];
+      var max = breakTimes[i]["end"];
+      var isBetween = (date, min, max) => (date.getTime() >= min.getTime() && date.getTime() <= max.getTime());
+
+      if (isBetween=true) {
+        inBreak = true;
+        break
+      } else {
+        inBreak = false;
+      }
+
+      console.log(inBreak)
+    } 
+   
+    // if (inBreak = true) {
+    //   chrome.webRequest.onBeforeRequest.addListener(
+    //     function() {
+    //         return {cancel: true};
+    //     },
+    //     {
+    //         urls: ["<all_urls>"]
+    //     },
+    //     ["blocking"]
+    //   );
+
+    //   chrome.notifications.create("", {
+    //     type: "basic",
+    //     iconUrl: "icon.png",
+    //     title: "Time to Move!",
+    //     message: "Time to Move!",
+    //   });
+    // }
+
+    
+    // // TODO: create a notification if inside a break
+    
+  }
+}, 5000);
+>>>>>>> Stashed changes:extension/background/background.js
