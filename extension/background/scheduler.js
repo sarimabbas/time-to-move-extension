@@ -16,7 +16,13 @@ async function getCalendarFeed(feedURL) {
 
   // first, fetch the iCAL feed from the URL
   const response = await fetch(
-    "https://time-to-move-cors-fetcher.herokuapp.com/" + feedURL
+    "https://time-to-move-cors-fetcher.herokuapp.com/" + feedURL,
+    {
+      method: "GET",
+      headers: {
+        "x-requested-with": "XMLHttpRequest",
+      },
+    }
   );
   const feedData = await response.text();
 
