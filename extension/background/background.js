@@ -3,6 +3,9 @@
 // if you want to store things longer you need the storage API
 let user_signed_in = false;
 let ical_feed = "";
+let breaksTaken = 0;
+let breaksSnoozed = 0;
+let clicked = false;
 
 // the chrome runtime passes messages between the scripts in the frontend and this "backend" script
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -13,11 +16,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       payload: user_signed_in,
     });
   }
+
   // you can sign people out with this
   else if (request.message === "sign_out") {
     user_signed_in = false;
     sendResponse({ message: "success" });
   }
+
   // this message is sent by the login.js upon successful sign in
   else if (request.message === "sign_in") {
     user_signed_in = true;
@@ -33,6 +38,12 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   // give the ical feed to whoever needs it
   else if (request.message === "get_ical_feed") {
     sendResponse({ message: "success", payload: ical_feed });
+  }
+
+  // snooze break
+  else if (request.message === "snooze") {
+    breaksSnoozed++;
+    sendResponse({ message: "success" });
   }
 
   return true;
@@ -70,22 +81,4 @@ setInterval(async () => {
     //   message: ical_feed,
     // });
   }
-}, 5000);
-
-// breaks taken vs. breaks snoozed
-var breaksTaken = 0;
-var breaksSnoozed = 0;
-var clicked = False;
-
-var cancel_button = getElementByID("cancel_button");
-
-cancel_button.onclick = function () {
-  clicked = True;
-};
-
-if (clicked === True) {
-  breaksSnoozed++;
-} else {
-  // if (clicked === False)
-  breaksTaken++;
-}
+}, 60000);
