@@ -99,4 +99,4 @@ setInterval(async () => {
     //   message: ical_feed,
     // });
   }
-}, 5000);
+}, 60000);
