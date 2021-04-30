@@ -125,7 +125,7 @@ def index():
         startBreak = possible_break[1] + (10 * 60)  # 10 minutes between breaks
 
 
-return jsonify(simulatedBreaks)
+    return jsonify(simulatedBreaks)
 
 
 def indexCopy():
