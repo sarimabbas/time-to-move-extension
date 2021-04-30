@@ -16,13 +16,16 @@ function contentBlocker() {
 console.log(chrome.webRequest.onBeforeRequest);
 
 async function fetchBreaks() {
-  // get today events every minute
-  const todayEvents = await getCalendarFeed(ical_feed);
-  console.log("Today's events are: ", todayEvents);
+  try {
+    // get today events every minute
+    const todayEvents = await getCalendarFeed(ical_feed);
+    console.log("Today's events are: ", todayEvents);
 
-  // pass them to the scheduler
-  breakTimes = await scheduler(todayEvents);
-  console.log("Today's scheduled breaks are: ", breakTimes);
+    // pass them to the scheduler
+    const newBreakTimes = await scheduler(todayEvents);
+    console.log("Today's scheduled breaks are: ", breakTimes);
+    breakTimes = newBreakTimes;
+  } catch (e) {}
 }
 
 // the chrome runtime passes messages between the scripts in the frontend and this "backend" script
@@ -86,11 +89,12 @@ setInterval(async () => {
     console.log("got", breakTimes);
   }
 
+  console.log("break times", breakTimes);
+
   // if the ical feed is set
   if (breakTimes.length > 0) {
     // loops through the breakTimes array, checking if the current time is within any breaktimes
-    var i;
-    for (i = 0; i < breakTimes.length; i++) {
+    for (let i = 0; i < breakTimes.length; i++) {
       var date = new Date();
       var min = breakTimes[i]["start"];
       var max = breakTimes[i]["end"];
@@ -107,6 +111,7 @@ setInterval(async () => {
     }
 
     if (inBreak === true) {
+      console.log("starting block");
       chrome.webRequest.onBeforeRequest.addListener(
         contentBlocker,
         {
@@ -122,6 +127,7 @@ setInterval(async () => {
         message: "Time to Move!",
       });
     } else {
+      console.log("removing block");
       chrome.webRequest.onBeforeRequest.removeListener(
         contentBlocker,
         {
