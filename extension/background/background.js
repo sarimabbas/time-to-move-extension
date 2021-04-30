@@ -9,6 +9,12 @@ let breaksSnoozed = 0;
 let inBreak = false;
 let clicked = false;
 
+function contentBlocker() {
+  return { cancel: true };
+}
+
+console.log(chrome.webRequest.onBeforeRequest);
+
 async function fetchBreaks() {
   // get today events every minute
   const todayEvents = await getCalendarFeed(ical_feed);
@@ -88,24 +94,23 @@ setInterval(async () => {
       var date = new Date();
       var min = breakTimes[i]["start"];
       var max = breakTimes[i]["end"];
-      var isBetween = (date, min, max) => (date.getTime() >= min.getTime() && date.getTime() <= max.getTime());
+      var isBetween = (date, min, max) =>
+        date.getTime() >= min.getTime() && date.getTime() <= max.getTime();
 
       if (isBetween(date, min, max) === true) {
         inBreak = true;
-        break
+        break;
       } else {
         inBreak = false;
       }
-      console.log(inBreak)
-    } 
-   
+      console.log(inBreak);
+    }
+
     if (inBreak === true) {
       chrome.webRequest.onBeforeRequest.addListener(
-        function() {
-            return {cancel: true};
-        },
+        contentBlocker,
         {
-            urls: ["<all_urls>"]
+          urls: ["<all_urls>"],
         },
         ["blocking"]
       );
@@ -116,25 +121,14 @@ setInterval(async () => {
         title: "Time to Move!",
         message: "Time to Move!",
       });
+    } else {
+      chrome.webRequest.onBeforeRequest.removeListener(
+        contentBlocker,
+        {
+          urls: ["<all_urls>"],
+        },
+        ["blocking"]
+      );
     }
-
-
-    // TODO: create a notification if inside a break
-    // web blocker
-    // chrome.webRequest.onBeforeRequest.addListener(
-    //   function() {
-    //       return {cancel: true};
-    //   },
-    //   {
-    //       urls: ["<all_urls>"]
-    //   },
-    //   ["blocking"]
-    // );
-    // chrome.notifications.create("", {
-    //   type: "basic",
-    //   iconUrl: "icon.png",
-    //   title: "Don't forget!",
-    //   message: ical_feed,
-    // });
   }
 }, 60000);
