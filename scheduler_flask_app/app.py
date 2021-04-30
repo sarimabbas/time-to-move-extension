@@ -113,8 +113,19 @@ def index():
 
     simulatedBreaks = []
 
-    return jsonify(simulatedBreaks)
+    time = dt.datetime.now()
+    startBreak = time.replace(hour=9, minute=0, second=0).timestamp()
 
+    for i in np.arange(0, 40):
+        endBreak = startBreak + (10 * 60)
+
+        possible_break = [startBreak, endBreak]
+        simulatedBreaks.append(possible_break)
+
+        startBreak = possible_break[1] + (10 * 60)  # 10 minutes between breaks
+
+
+return jsonify(simulatedBreaks)
 
 
 def indexCopy():
