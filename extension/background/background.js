@@ -112,6 +112,7 @@ setInterval(async () => {
 
     if (inBreak === true) {
       console.log("starting block");
+      window.open(chrome.runtime.getURL("../blocked/blocked.html"));
       chrome.webRequest.onBeforeRequest.addListener(
         contentBlocker,
         {
