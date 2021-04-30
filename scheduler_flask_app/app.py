@@ -108,6 +108,16 @@ def find_breakTimes(
 
 @app.route("/", methods=["POST", "GET"])
 def index():
+    if request.method == "GET":
+        return "Hello and welcome to the server!"
+
+    simulatedBreaks = []
+
+    return jsonify(simulatedBreaks)
+
+
+
+def indexCopy():
 
     if request.method == "GET":
         return "Hello and welcome to the server!"
