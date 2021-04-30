@@ -6,6 +6,7 @@ let ical_feed = "";
 let breakTimes = [];
 let breaksTaken = 0;
 let breaksSnoozed = 0;
+let inBreak = false;
 let clicked = false;
 
 async function fetchBreaks() {
@@ -81,6 +82,43 @@ setInterval(async () => {
 
   // if the ical feed is set
   if (breakTimes.length > 0) {
+    // loops through the breakTimes array, checking if the current time is within any breaktimes
+    var i;
+    for (i = 0; i < breakTimes.length; i++) {
+      var date = new Date();
+      var min = breakTimes[i]["start"];
+      var max = breakTimes[i]["end"];
+      var isBetween = (date, min, max) => (date.getTime() >= min.getTime() && date.getTime() <= max.getTime());
+
+      if (isBetween(date, min, max) === true) {
+        inBreak = true;
+        break
+      } else {
+        inBreak = false;
+      }
+      console.log(inBreak)
+    } 
+   
+    if (inBreak === true) {
+      chrome.webRequest.onBeforeRequest.addListener(
+        function() {
+            return {cancel: true};
+        },
+        {
+            urls: ["<all_urls>"]
+        },
+        ["blocking"]
+      );
+
+      chrome.notifications.create("", {
+        type: "basic",
+        iconUrl: "icon.png",
+        title: "Time to Move!",
+        message: "Time to Move!",
+      });
+    }
+
+
     // TODO: create a notification if inside a break
     // web blocker
     // chrome.webRequest.onBeforeRequest.addListener(
