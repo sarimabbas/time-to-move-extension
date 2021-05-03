@@ -17,11 +17,15 @@ ui.start("#firebaseui-auth-container", {
   signInOptions: [firebase.auth.EmailAuthProvider.PROVIDER_ID],
   callbacks: {
     signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-      chrome.runtime.sendMessage({ message: "sign_in" }, function (response) {
-        if (response.message === "success") {
-          window.location.replace("../main/main.html");
+      console.log(authResult);
+      chrome.runtime.sendMessage(
+        { message: "sign_in", payload: authResult },
+        function (response) {
+          if (response.message === "success") {
+            window.location.replace("../main/main.html");
+          }
         }
-      });
+      );
       return false;
     },
   },

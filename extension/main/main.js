@@ -26,6 +26,14 @@ function init() {
     }
   });
 
+  // EXAMPLE: get the user info
+  chrome.runtime.sendMessage({ message: "get_user" }, function (response) {
+    if (response.message === "success" && response.payload) {
+      document.querySelector("#user-welcome").innerText =
+        "Welcome, " + response.payload.name;
+    }
+  });
+
   // EXAMPLE: get the breaks
   chrome.runtime.sendMessage({ message: "get_breaks" }, function (response) {
     if (response.message === "success" && response.payload) {
