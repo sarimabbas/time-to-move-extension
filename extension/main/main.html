@@ -13,13 +13,12 @@
     <title>Main Popup</title>
   </head>
 
-  <body style="width: 300px; height: 360px; padding: 25px 16px 12px; color:antiquewhite;" class="bg-gradient-primary" >
+  <body style="width: 300px; height: 380px; padding: 25px 16px 12px; color:antiquewhite;" class="bg-gradient-primary" >
     <div>
       <p style="float: left; padding-left: 10px; padding-right: 10px;"><img src="icon.png" height="30px" width="30px"></p>
       <p class="h4" style="font-weight: bold;">TIME TO MOVE!</p> 
     </div>
-    <!-- <p class="h4" style="font-weight: bold;">TIME TO MOVE!</p>  -->
-    <!-- <img src="icon.png" style="width:30px; height: 30px ;"> -->
+
 
     <div class="col-xl-auto col-md-6 mb-4 mt-4">
       <div class="card h-auto py-2">
@@ -28,13 +27,27 @@
                   <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                           Upcoming Breaks:</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">TBDTBDTBDTBDTBDTBDTBDTBDTBDTBD
-                        TBDTBDTBDTBDTBDTBDTBDTBDTBD</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">TBD </div>
                   </div>
               </div>
           </div>
       </div>
     </div>
+
+    <div class="col-xl-auto col-md-6 mb-4 mt-4">
+      <div class="card h-auto py-2">
+          <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                          NEXT BREAK IN: </div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="ppt"> 20:21 </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+
 
     <div class="buttons-flex">
     <button id="go-to-options" class="btn btn-info btn-icon-split">
@@ -43,7 +56,7 @@
       <span class="text">Options</span>
     </button>
 
-    <button id="sign-out" class="btn btn-warning btn-icon-split ">
+    <button id="sign-out" class="btn btn-danger btn-icon-split ">
       <span class="icon text-white-50">
       </span>
       <span class="text">Sign Out</span>

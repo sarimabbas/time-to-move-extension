@@ -8,6 +8,7 @@ let breaksTaken = 0;
 let breaksSnoozed = 0;
 let inBreak = false;
 let clicked = false;
+let counterVar = 0;
 
 function contentBlocker() {
   return { cancel: true };
@@ -112,21 +113,29 @@ setInterval(async () => {
 
     if (inBreak === true) {
       console.log("starting block");
-      window.open(chrome.runtime.getURL("../blocked/blocked.html"));
       chrome.webRequest.onBeforeRequest.addListener(
         contentBlocker,
         {
-          urls: ["<all_urls>"],
+          urls: ["*://*/*"],
         },
         ["blocking"]
       );
 
-      chrome.notifications.create("", {
-        type: "basic",
-        iconUrl: "icon.png",
-        title: "Time to Move!",
-        message: "Time to Move!",
-      });
+      if (counterVar === 0) {
+        window.open(chrome.runtime.getURL("../options/pages/breakpage.html"));
+        chrome.tabs.query({status:'complete'}, (tabs)=>{
+          tabs.forEach((tab)=>{
+              if(tab.url){
+                  chrome.tabs.update(tab.id,{url: tab.url});
+               }
+              });
+          });
+        counterVar++;
+        console.log(counterVar)
+      }
+
+      
+
     } else {
       console.log("removing block");
       chrome.webRequest.onBeforeRequest.removeListener(
@@ -136,6 +145,19 @@ setInterval(async () => {
         },
         ["blocking"]
       );
+
+      if (counterVar === 1) {
+        chrome.tabs.query({status:'complete'}, (tabs)=>{
+          tabs.forEach((tab)=>{
+              if(tab.url){
+                  chrome.tabs.update(tab.id,{url: tab.url});
+               }
+              });
+          });
+        counterVar--
+        console.log(counterVar)
+      } 
+
     }
   }
-}, 60000);
+}, 30000);
