@@ -22,6 +22,18 @@ def getFreeTimes(busy_times, user_BOD, user_EOD):
 
     freeTimes = pd.DataFrame()
 
+    # if there are no busy times
+    if len(busy_times) == 0:
+        startFree_BOD = user_BOD
+        endFree_EOD = user_EOD
+
+        freeDay = pd.DataFrame(
+            {"start": [startFree_BOD], "end": [endFree_EOD]})
+
+        freeTimes = freeTimes.append(freeDay)
+
+        return freeTimes
+
     # beginning of day
     if busy_times.iloc[0, 0] > user_BOD:
         startFree_BOD = user_BOD
@@ -123,7 +135,6 @@ def index():
         simulatedBreaks.append(possible_break)
 
         startBreak = possible_break[1] + (10 * 60)  # 10 minutes between breaks
-
 
     return jsonify(simulatedBreaks)
 
