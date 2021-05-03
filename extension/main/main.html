@@ -4,64 +4,88 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="main-css.css">
+    <link rel="stylesheet" type="text/css" href="main-css.css" />
     <script src="main.js" defer></script>
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet" type="text/css">
+      href="vendor/fontawesome-free/css/all.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet"
+      type="text/css"
+    />
     <title>Main Popup</title>
   </head>
 
-  <body style="width: 300px; height: 380px; padding: 25px 16px 12px; color:antiquewhite;" class="bg-gradient-primary" >
+  <body
+    style="
+      width: 300px;
+      height: 380px;
+      padding: 25px 16px 12px;
+      color: antiquewhite;
+    "
+    class="bg-gradient-primary"
+  >
     <div>
-      <p style="float: left; padding-left: 10px; padding-right: 10px;"><img src="icon.png" height="30px" width="30px"></p>
-      <p class="h4" style="font-weight: bold;">TIME TO MOVE!</p> 
+      <p style="float: left; padding-left: 10px; padding-right: 10px">
+        <img src="icon.png" height="30px" width="30px" />
+      </p>
+      <p class="h4" style="font-weight: bold">TIME TO MOVE!</p>
     </div>
-
 
     <div class="col-xl-auto col-md-6 mb-4 mt-4">
       <div class="card h-auto py-2">
-          <div class="card-body">
-              <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                          Upcoming Breaks:</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">TBD </div>
-                  </div>
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div
+                class="text-xs font-weight-bold text-primary text-uppercase mb-1"
+              >
+                Upcoming Breaks:
               </div>
+              <div
+                class="h5 mb-0 font-weight-bold text-gray-800"
+                id="breaks-holder"
+              >
+                TBD
+              </div>
+            </div>
           </div>
+        </div>
       </div>
     </div>
 
     <div class="col-xl-auto col-md-6 mb-4 mt-4">
       <div class="card h-auto py-2">
-          <div class="card-body">
-              <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                          NEXT BREAK IN: </div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="ppt"> 20:21 </div>
-                  </div>
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div
+                class="text-xs font-weight-bold text-primary text-uppercase mb-1"
+              >
+                NEXT BREAK IN:
               </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800" id="ppt">
+                20:21
+              </div>
+            </div>
           </div>
+        </div>
       </div>
     </div>
-
 
     <div class="buttons-flex">
-    <button id="go-to-options" class="btn btn-info btn-icon-split">
-      <span class="icon text-white-50">
-      </span>
-      <span class="text">Options</span>
-    </button>
+      <button id="go-to-options" class="btn btn-info btn-icon-split">
+        <span class="icon text-white-50"> </span>
+        <span class="text">Options</span>
+      </button>
 
-    <button id="sign-out" class="btn btn-danger btn-icon-split ">
-      <span class="icon text-white-50">
-      </span>
-      <span class="text">Sign Out</span>
-    </button>
+      <button id="sign-out" class="btn btn-danger btn-icon-split">
+        <span class="icon text-white-50"> </span>
+        <span class="text">Sign Out</span>
+      </button>
     </div>
-
   </body>
 </html>

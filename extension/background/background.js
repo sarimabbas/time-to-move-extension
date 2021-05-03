@@ -123,19 +123,16 @@ setInterval(async () => {
 
       if (counterVar === 0) {
         window.open(chrome.runtime.getURL("../options/pages/breakpage.html"));
-        chrome.tabs.query({status:'complete'}, (tabs)=>{
-          tabs.forEach((tab)=>{
-              if(tab.url){
-                  chrome.tabs.update(tab.id,{url: tab.url});
-               }
-              });
+        chrome.tabs.query({ status: "complete" }, (tabs) => {
+          tabs.forEach((tab) => {
+            if (tab.url) {
+              chrome.tabs.update(tab.id, { url: tab.url });
+            }
           });
+        });
         counterVar++;
-        console.log(counterVar)
+        console.log(counterVar);
       }
-
-      
-
     } else {
       console.log("removing block");
       chrome.webRequest.onBeforeRequest.removeListener(
@@ -147,17 +144,16 @@ setInterval(async () => {
       );
 
       if (counterVar === 1) {
-        chrome.tabs.query({status:'complete'}, (tabs)=>{
-          tabs.forEach((tab)=>{
-              if(tab.url){
-                  chrome.tabs.update(tab.id,{url: tab.url});
-               }
-              });
+        chrome.tabs.query({ status: "complete" }, (tabs) => {
+          tabs.forEach((tab) => {
+            if (tab.url) {
+              chrome.tabs.update(tab.id, { url: tab.url });
+            }
           });
-        counterVar--
-        console.log(counterVar)
-      } 
-
+        });
+        counterVar--;
+        console.log(counterVar);
+      }
     }
   }
 }, 30000);
