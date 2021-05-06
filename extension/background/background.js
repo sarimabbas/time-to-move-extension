@@ -1,7 +1,6 @@
 // these are global variables that exist over the lifetime of the extension
 // (i.e. whenever Google Chrome is open)
 // if you want to store things longer you need the storage API
-let user_signed_in = false;
 let ical_feed = "";
 let breakTimes = [];
 let breaksTaken = 0;
@@ -9,6 +8,14 @@ let breaksSnoozed = 0;
 let inBreak = false;
 let clicked = false;
 let counterVar = 0;
+
+// user variables
+let user_signed_in = false;
+let user = {
+  name: "",
+  email: "",
+  uid: "",
+};
 
 function contentBlocker() {
   return { cancel: true };
@@ -50,8 +57,11 @@ chrome.runtime.onMessage.addListener(async function (
   }
 
   // this message is sent by the login.js upon successful sign in
-  else if (request.message === "sign_in") {
+  else if (request.message === "sign_in" && request.payload) {
     user_signed_in = true;
+    user.email = request.payload?.user?.email;
+    user.name = request.payload?.user?.displayName;
+    user.uid = request.payload?.user?.uid;
     sendResponse({ message: "success" });
   }
 
@@ -60,6 +70,11 @@ chrome.runtime.onMessage.addListener(async function (
     ical_feed = request.payload;
     await fetchBreaks();
     sendResponse({ message: "success" });
+  }
+
+  // give the ical feed to whoever needs it
+  else if (request.message === "get_user") {
+    sendResponse({ message: "success", payload: user });
   }
 
   // give the ical feed to whoever needs it
